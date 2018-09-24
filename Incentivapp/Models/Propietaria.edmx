@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Propietaria2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Medicion">
+          <Key>
+            <PropertyRef Name="idMedicion" />
+          </Key>
+          <Property Name="idMedicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rango" Type="varchar(max)" />
+          <Property Name="idPremio" Type="int" />
+          <Property Name="idUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Premio">
+          <Key>
+            <PropertyRef Name="idPremio" />
+          </Key>
+          <Property Name="idPremio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="valor" Type="varchar(max)" />
+          <Property Name="nombre" Type="varchar(max)" />
+          <Property Name="idTipoPremio" Type="int" />
+          <Property Name="idUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="TipoPremio">
+          <Key>
+            <PropertyRef Name="idTipoPremio" />
+          </Key>
+          <Property Name="idTipoPremio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="varchar(max)" />
+          <Property Name="idUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="apellido" Type="varchar" MaxLength="100" />
+          <Property Name="email" Type="varchar(max)" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="fisica" Type="bit" />
+          <Property Name="idRol" Type="int" />
+        </EntityType>
+        <Association Name="FK_ID_PREMIO">
+          <End Role="Premio" Type="Self.Premio" Multiplicity="0..1" />
+          <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Premio">
+              <PropertyRef Name="idPremio" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="idPremio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_ROL">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_TIPO_PREMIO">
+          <End Role="TipoPremio" Type="Self.TipoPremio" Multiplicity="0..1" />
+          <End Role="Premio" Type="Self.Premio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPremio">
+              <PropertyRef Name="idTipoPremio" />
+            </Principal>
+            <Dependent Role="Premio">
+              <PropertyRef Name="idTipoPremio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="TipoPremio" Type="Self.TipoPremio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="TipoPremio">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER_2">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Premio" Type="Self.Premio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Premio">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER_3">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Propietaria2ModelStoreContainer">
+          <EntitySet Name="Medicion" EntityType="Self.Medicion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Premio" EntityType="Self.Premio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoPremio" EntityType="Self.TipoPremio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ID_PREMIO" Association="Self.FK_ID_PREMIO">
+            <End Role="Premio" EntitySet="Premio" />
+            <End Role="Medicion" EntitySet="Medicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_ROL" Association="Self.FK_ID_ROL">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_TIPO_PREMIO" Association="Self.FK_ID_TIPO_PREMIO">
+            <End Role="TipoPremio" EntitySet="TipoPremio" />
+            <End Role="Premio" EntitySet="Premio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER" Association="Self.FK_ID_USER">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TipoPremio" EntitySet="TipoPremio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER_2" Association="Self.FK_ID_USER_2">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Premio" EntitySet="Premio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER_3" Association="Self.FK_ID_USER_3">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Medicion" EntitySet="Medicion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Propietaria2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Medicion">
+          <Key>
+            <PropertyRef Name="idMedicion" />
+          </Key>
+          <Property Name="idMedicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rango" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idPremio" Type="Int32" />
+          <Property Name="idUser" Type="Int32" />
+          <NavigationProperty Name="Premio" Relationship="Self.FK_ID_PREMIO" FromRole="Medicion" ToRole="Premio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_ID_USER_3" FromRole="Medicion" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Premio">
+          <Key>
+            <PropertyRef Name="idPremio" />
+          </Key>
+          <Property Name="idPremio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="valor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idTipoPremio" Type="Int32" />
+          <Property Name="idUser" Type="Int32" />
+          <NavigationProperty Name="Medicions" Relationship="Self.FK_ID_PREMIO" FromRole="Premio" ToRole="Medicion" />
+          <NavigationProperty Name="TipoPremio" Relationship="Self.FK_ID_TIPO_PREMIO" FromRole="Premio" ToRole="TipoPremio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_ID_USER_2" FromRole="Premio" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_ID_ROL" FromRole="Roles" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="TipoPremio">
+          <Key>
+            <PropertyRef Name="idTipoPremio" />
+          </Key>
+          <Property Name="idTipoPremio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idUser" Type="Int32" />
+          <NavigationProperty Name="Premios" Relationship="Self.FK_ID_TIPO_PREMIO" FromRole="TipoPremio" ToRole="Premio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_ID_USER" FromRole="TipoPremio" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fisica" Type="Boolean" />
+          <Property Name="idRol" Type="Int32" />
+          <NavigationProperty Name="Medicions" Relationship="Self.FK_ID_USER_3" FromRole="Usuarios" ToRole="Medicion" />
+          <NavigationProperty Name="Premios" Relationship="Self.FK_ID_USER_2" FromRole="Usuarios" ToRole="Premio" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_ID_ROL" FromRole="Usuarios" ToRole="Roles" />
+          <NavigationProperty Name="TipoPremios" Relationship="Self.FK_ID_USER" FromRole="Usuarios" ToRole="TipoPremio" />
+        </EntityType>
+        <Association Name="FK_ID_PREMIO">
+          <End Role="Premio" Type="Self.Premio" Multiplicity="0..1" />
+          <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Premio">
+              <PropertyRef Name="idPremio" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="idPremio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER_3">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_TIPO_PREMIO">
+          <End Role="TipoPremio" Type="Self.TipoPremio" Multiplicity="0..1" />
+          <End Role="Premio" Type="Self.Premio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPremio">
+              <PropertyRef Name="idTipoPremio" />
+            </Principal>
+            <Dependent Role="Premio">
+              <PropertyRef Name="idTipoPremio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER_2">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Premio" Type="Self.Premio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Premio">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_ROL">
+          <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_USER">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="TipoPremio" Type="Self.TipoPremio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="TipoPremio">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Propietaria2Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Medicions" EntityType="Self.Medicion" />
+          <EntitySet Name="Premios" EntityType="Self.Premio" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="TipoPremios" EntityType="Self.TipoPremio" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_ID_PREMIO" Association="Self.FK_ID_PREMIO">
+            <End Role="Premio" EntitySet="Premios" />
+            <End Role="Medicion" EntitySet="Medicions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER_3" Association="Self.FK_ID_USER_3">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Medicion" EntitySet="Medicions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_TIPO_PREMIO" Association="Self.FK_ID_TIPO_PREMIO">
+            <End Role="TipoPremio" EntitySet="TipoPremios" />
+            <End Role="Premio" EntitySet="Premios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER_2" Association="Self.FK_ID_USER_2">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Premio" EntitySet="Premios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_ROL" Association="Self.FK_ID_ROL">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_USER" Association="Self.FK_ID_USER">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TipoPremio" EntitySet="TipoPremios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Propietaria2ModelStoreContainer" CdmEntityContainer="Propietaria2Context">
+          <EntitySetMapping Name="Medicions">
+            <EntityTypeMapping TypeName="Propietaria2Model.Medicion">
+              <MappingFragment StoreEntitySet="Medicion">
+                <ScalarProperty Name="idMedicion" ColumnName="idMedicion" />
+                <ScalarProperty Name="rango" ColumnName="rango" />
+                <ScalarProperty Name="idPremio" ColumnName="idPremio" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Premios">
+            <EntityTypeMapping TypeName="Propietaria2Model.Premio">
+              <MappingFragment StoreEntitySet="Premio">
+                <ScalarProperty Name="idPremio" ColumnName="idPremio" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idTipoPremio" ColumnName="idTipoPremio" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="Propietaria2Model.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoPremios">
+            <EntityTypeMapping TypeName="Propietaria2Model.TipoPremio">
+              <MappingFragment StoreEntitySet="TipoPremio">
+                <ScalarProperty Name="idTipoPremio" ColumnName="idTipoPremio" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="Propietaria2Model.Usuario">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="fisica" ColumnName="fisica" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
