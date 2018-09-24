@@ -125,6 +125,12 @@
     <Content Include="Models\Propietaria.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Propietaria.Context.cs</LastGenOutput>
+      <DependentUpon>Propietaria.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Propietaria.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Propietaria.edmx</DependentUpon>
+      <LastGenOutput>Propietaria.cs</LastGenOutput>
     </Content>
     <Content Include="Web.config" />
   </ItemGroup>
@@ -135,17 +141,43 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Medicion.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Premio.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Propietaria.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Propietaria.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Propietaria.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Propietaria.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Propietaria.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Propietaria.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rango.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoPremio.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>Propietaria.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -164,9 +196,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Propietaria.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\Propietaria.edmx.diagram">
+    <Content Include="Models\Propietaria.edmx.diagram">
       <DependentUpon>Propietaria.edmx</DependentUpon>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_Viewstart.cshtml" />

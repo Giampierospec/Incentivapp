@@ -25,10 +25,11 @@ namespace Incentivapp.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Medicion> Medicions { get; set; }
         public virtual DbSet<Premio> Premios { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<TipoPremio> TipoPremios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Medicion> Medicions { get; set; }
+        public virtual DbSet<Rango> Rangoes { get; set; }
     }
 }

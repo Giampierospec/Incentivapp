@@ -15,6 +15,8 @@ namespace Incentivapp.Repository
         public GenericRepository<Medicion> MedicionRepository { get; }
         public GenericRepository<Role> RolRepository { get; }
         public GenericRepository<Usuario> UsuarioRepository { get; }
+        public GenericRepository<Rango> RangoRepository { get; }
+
         /// <summary>
         /// Inicializa los repositorios
         /// </summary>
@@ -27,6 +29,7 @@ namespace Incentivapp.Repository
             MedicionRepository = new GenericRepository<Medicion>(db);
             RolRepository = new GenericRepository<Role>(db);
             UsuarioRepository = new GenericRepository<Usuario>(db);
+            RangoRepository = new GenericRepository<Rango>(db);
         }
         /// <summary>
         /// Guarda los cambios en la base de datos
