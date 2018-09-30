@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Medicion";
+}
+
+@model List<Incentivapp.Models.Medicion>
+@section scripts {
+    <script src="~/Scripts/Medicion/Medicion.js"></script>
+}
+
+
+<div class="row">
+    <div class="col-sm-8 offset-sm-2 text-center">
+        <h2>Medicion</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("Crear", "Create", "Medicion", null, new { @class = "btn btn-primary" })
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Premio</th>
+                    <th>Valor</th>
+                    <th>Rango Inicio</th>
+                    <th>Rango Fin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Premio.nombre</td>
+                        <td>@item.Premio.valor</td>
+                        <td>@item.Rango1.Inicio</td>
+                        <td>@item.Rango1.Fin</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", "Medicion", new { id = item.idMedicion }, new { @class = "btn btn-secondary" })
+                            <button class="btn btn-danger" id="delMed" data-id="@item.idMedicion">Eliminar</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Medicion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2>Esta seguro que quiere eliminar la Medicion # <span class="text-danger" id="dlSpan"></span></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-Danger" id="delBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

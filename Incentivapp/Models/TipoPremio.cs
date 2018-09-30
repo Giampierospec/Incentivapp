@@ -11,7 +11,8 @@ namespace Incentivapp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TipoPremio
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,7 @@ namespace Incentivapp.Models
         }
     
         public int idTipoPremio { get; set; }
+        [Required(ErrorMessage = "El campo tipo es requerido")]
         public string tipo { get; set; }
         public Nullable<int> idUser { get; set; }
     

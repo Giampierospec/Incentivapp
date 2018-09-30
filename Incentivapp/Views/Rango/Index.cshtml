@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Rango";
+}
+@model List<Incentivapp.Models.Rango>
+@section scripts {
+<script src="~/Scripts/Rango/rango.js"></script>
+    }
+<div class="row">
+    <div class="col-sm-8 offset-sm-2 text-center">
+        <h2>Rango</h2>
+        
+        <p>
+            @Html.ActionLink("Crear", "Create", "Rango", null, new { @class = "btn btn-primary" })
+        </p>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Inicio</td>
+                        <td>@item.Fin</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", "Rango", new { id = item.idRango }, new { @class = "btn btn-secondary" })
+                            <button id="delRng" class="btn btn-danger" data-id="@item.idRango">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Rango</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2>Esta seguro que quiere eliminar el Rango # <span class="text-danger" id="dlSpan"></span></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-Danger" id="delBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

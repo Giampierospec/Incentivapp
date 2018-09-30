@@ -12,9 +12,9 @@ namespace Incentivapp
         {
             bundles.Add(new StyleBundle("~/bundles/css")
                             .Include("~/Content/bootstrap/css/bootstrap.min.css",
-                                       "~/Content/js/jquery.min.js",
-                                    "~/Content/bootstrap/js/bootstrap.min.js",
                                     "~/Content/styles.css"));
+            bundles.Add(new ScriptBundle("~/bundles/js")
+                        .Include("~/Content/js/jquery.min.js", "~/Content/bootstrap/js/bootstrap.min.js"));
         }
     }
 }

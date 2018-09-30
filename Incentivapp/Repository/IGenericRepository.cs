@@ -13,6 +13,7 @@ namespace Incentivapp.Repository
         List<T> GetAll();
         List<T> GetList(Expression<Func<T, bool>> where);
         T GetSingle(Func<T, bool> where);
+        List<U> Transform<U>(Func<T,U> tr) where U: class;
         void Add(T entity);
         void Remove(T entity);
         void Update(T entity);

@@ -67,6 +67,20 @@ namespace Incentivapp.Repository
             _db.Entry(entity).State = System.Data.Entity.EntityState.Deleted;
         }
         /// <summary>
+        /// Returns a transformed list
+        /// </summary>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="tr"></param>
+        /// <returns></returns>
+        public List<U> Transform<U>(Func<T, U> tr)
+            where U: class
+        {
+            return _db.Set<T>()
+                       .Select(tr)
+                       .ToList();
+        }
+
+        /// <summary>
         /// Actualiza la entidad
         /// </summary>
         /// <param name="entity"></param>

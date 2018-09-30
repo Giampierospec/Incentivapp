@@ -132,12 +132,20 @@
       <DependentUpon>Propietaria.edmx</DependentUpon>
       <LastGenOutput>Propietaria.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Medicion\Medicion.js" />
+    <Content Include="Scripts\Premios\premio.js" />
+    <Content Include="Scripts\Rango\rango.js" />
+    <Content Include="Scripts\tipoPremios\tp.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\MedicionController.cs" />
+    <Compile Include="Controllers\PremiosController.cs" />
+    <Compile Include="Controllers\RangoController.cs" />
+    <Compile Include="Controllers\TipoPremiosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -203,6 +211,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_Viewstart.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\TipoPremios\Index.cshtml" />
+    <Content Include="Views\TipoPremios\CreateEdit.cshtml" />
+    <Content Include="Views\Premios\Index.cshtml" />
+    <Content Include="Views\Premios\CreateEdit.cshtml" />
+    <Content Include="Views\Rango\Index.cshtml" />
+    <Content Include="Views\Rango\CreateEdit.cshtml" />
+    <Content Include="Views\Medicion\Index.cshtml" />
+    <Content Include="Views\Medicion\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -212,7 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

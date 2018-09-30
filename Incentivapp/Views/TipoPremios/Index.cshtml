@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Tipos de Premio";
+}
+@model List<Incentivapp.Models.TipoPremio>
+@section scripts{
+    <script src="~/Scripts/tipoPremios/tp.js"></script>
+}
+<div class="row">
+    <div class="col-sm-8 offset-sm-2 text-center">
+        <h2>Tipos de Premio</h2>
+        <hr />
+        @Html.ActionLink("Crear Nuevo", "Create", "TipoPremios", new { @class = "btn btn-primary" })
+        <br />
+        <br />
+        <div class="col-sm-8 offset-sm-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.tipo</td>
+                            <td>@Html.ActionLink("Editar", "Edit", "TipoPremios", new { id = item.idTipoPremio }, new { @class = "btn btn-secondary" })</td>
+                            <td><button class="btn btn-danger" id="delTp" data-id="@item.idTipoPremio">Eliminar</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Tipo Premio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2>Esta seguro que quiere eliminar el tipo de premio # <span class="text-danger" id="dlSpan"></span></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-Danger" id="delBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
