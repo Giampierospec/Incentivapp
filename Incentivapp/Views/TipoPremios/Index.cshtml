@@ -28,7 +28,7 @@
                         <tr>
                             <td>@item.tipo</td>
                             <td>@Html.ActionLink("Editar", "Edit", "TipoPremios", new { id = item.idTipoPremio }, new { @class = "btn btn-secondary" })</td>
-                            <td><button class="btn btn-danger" id="delTp" data-id="@item.idTipoPremio">Eliminar</button></td>
+                            <td><button class="btn btn-danger delTp" data-id="@item.idTipoPremio">Eliminar</button></td>
                         </tr>
                     }
                 </tbody>

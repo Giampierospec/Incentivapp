@@ -1,6 +1,6 @@
 ﻿(() => {
     let idPremio = "";
-    $("#delPr").click((e) => {
+    $(document).on("click",".delPr",(e) => {
         e.preventDefault();
         idPremio = e.currentTarget.getAttribute("data-id");
         $("#dlSpan").html(`<b>${idPremio}</b>`);

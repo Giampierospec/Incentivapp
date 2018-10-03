@@ -30,7 +30,7 @@
                         <td>@item.Fin</td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", "Rango", new { id = item.idRango }, new { @class = "btn btn-secondary" })
-                            <button id="delRng" class="btn btn-danger" data-id="@item.idRango">Eliminar</button>
+                            <button class="btn btn-danger delRng" data-id="@item.idRango">Eliminar</button>
                         </td>
                     </tr>
                 }

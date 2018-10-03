@@ -135,7 +135,9 @@
     <Content Include="Scripts\Medicion\Medicion.js" />
     <Content Include="Scripts\Premios\premio.js" />
     <Content Include="Scripts\Rango\rango.js" />
+    <Content Include="Scripts\Roles\roles.js" />
     <Content Include="Scripts\tipoPremios\tp.js" />
+    <Content Include="Scripts\Usuarios\usuarios.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +147,9 @@
     <Compile Include="Controllers\MedicionController.cs" />
     <Compile Include="Controllers\PremiosController.cs" />
     <Compile Include="Controllers\RangoController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TipoPremiosController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,6 +223,10 @@
     <Content Include="Views\Rango\CreateEdit.cshtml" />
     <Content Include="Views\Medicion\Index.cshtml" />
     <Content Include="Views\Medicion\CreateEdit.cshtml" />
+    <Content Include="Views\Roles\CreateEdit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Usuarios\CreateEdit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

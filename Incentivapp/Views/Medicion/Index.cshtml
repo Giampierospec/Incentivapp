@@ -36,7 +36,7 @@
                         <td>@item.Rango1.Fin</td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", "Medicion", new { id = item.idMedicion }, new { @class = "btn btn-secondary" })
-                            <button class="btn btn-danger" id="delMed" data-id="@item.idMedicion">Eliminar</button>
+                            <button class="btn btn-danger delMed" data-id="@item.idMedicion">Eliminar</button>
                         </td>
 
                     </tr>

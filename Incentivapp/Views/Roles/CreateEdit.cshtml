@@ -1,0 +1,31 @@
+﻿@{ 
+    string method = ViewBag.Method;
+}
+@model Incentivapp.Models.Role
+<div class="row text-center">
+    <div class="col-sm-8 offset-sm-2">
+        <h2>@ViewBag.Msg</h2>
+        <hr />
+        @Html.ValidationSummary()
+        @using (Html.BeginForm(method, "Roles", FormMethod.Post))
+    {
+        if (Model != null)
+        {
+            @Html.HiddenFor(x => x.idRol);
+    }
+    <div class="form-group row">
+        @Html.LabelFor(x => x.nombre, "Rol", new { @class = "col-sm-4 col-form-label" })
+        <div class="col-sm-8">
+            @Html.TextBoxFor(x => x.nombre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.nombre)
+        </div>
+    </div>
+    <div class="col-sm-8 offset-sm-2">
+        <button type="submit" class="btn btn-outline-primary">@ViewBag.Btn</button>
+    </div>
+}
+    </div>
+</div>
+
+
+

@@ -1,51 +1,52 @@
-﻿@model List<Incentivapp.Models.Premio>
-
+﻿@model List<Incentivapp.Models.Usuario>
 @{
-    ViewBag.Title = "Premios";
+    ViewBag.Title = "Usuarios";
 }
 @section scripts {
-<script src="~/Scripts/Premios/premio.js"></script>
-    }
+    <script src="~/Scripts/Usuarios/usuarios.js"></script>
+}
 <div class="row">
     <div class="col-sm-8 offset-sm-2 text-center">
         <h2>Premios</h2>
-
         <p>
-            @Html.ActionLink("Crear Nuevo", "Create",null,new { @class="btn btn-primary"})
+            @Html.ActionLink("Crear Nuevo", "Create", null, new { @class = "btn btn-primary" })
         </p>
         <table class="table">
             <tr>
                 <th>
-                    Valor
-                </th>
-                <th>
                     Nombre
                 </th>
                 <th>
-                    Tipo Premio
+                    Apellido
                 </th>
-                <th></th>
+                <th>
+                    Email
+                </th>
+               <th>
+                   Rol
+               </th>
             </tr>
-
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
-                        @item.valor
-                    </td>
-                    <td>
                         @item.nombre
                     </td>
                     <td>
-                        @item.TipoPremio.tipo
+                    @item.apellido
                     </td>
                     <td>
-                        @Html.ActionLink("Editar", "Edit", "Premios", new { id = item.idPremio }, new { @class = "btn btn-secondary" }) |
-                        <button  class="btn btn-danger delPr" data-id="@item.idPremio">Eliminar</button>
+                        @item.email
+                    </td>
+                    <td>
+                    @item.Role.nombre
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", "Usuarios", new { id = item.idUsuario }, new { @class = "btn btn-secondary" }) |
+                        <button class="delUser btn btn-danger" data-id="@item.idUsuario">Eliminar</button>
                     </td>
                 </tr>
             }
-
         </table>
     </div>
 </div>
@@ -53,13 +54,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar Premio</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <h2>Esta seguro que quiere eliminar el premio # <span class="text-danger" id="dlSpan"></span></h2>
+                <h2>Esta seguro que quiere eliminar el Usuario # <span class="text-danger" id="dlSpan"></span></h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

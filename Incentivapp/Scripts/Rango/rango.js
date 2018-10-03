@@ -1,6 +1,6 @@
 ﻿(() => {
     let idRango = "";
-    $("#delRng").click((e) => {
+    $(document).on("click", ".delRng",(e) => {
         e.preventDefault();
         idRango = e.currentTarget.getAttribute("data-id");
         $("#dlSpan").html(`<b>${idRango}</b>`);
