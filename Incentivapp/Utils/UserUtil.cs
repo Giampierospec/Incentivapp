@@ -1,4 +1,5 @@
-﻿using Incentivapp.Models;
+﻿using Incentivapp.Enums;
+using Incentivapp.Models;
 using Incentivapp.Repository;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace Incentivapp.Utils
         /// <summary>
         /// Verifica si el usuario esta en el rol
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="rol"></param>
         /// <returns></returns>
-        public static bool IsInRole(Usuario user) => _repo.Exists(x => x.idRol == user.idRol);
+        public static bool IsInRole(RolesEnum rol) => _repo.Exists(x => x.idRol == (int)rol);
         /// <summary>
         /// retorna si tiene credenciales validos
         /// </summary>

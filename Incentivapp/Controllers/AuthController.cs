@@ -27,7 +27,7 @@ namespace Incentivapp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("error", "Usuario no existente");
+                    ModelState.AddModelError("error", "Usuario o contraseña incorrectos");
                     result = View("Index");
                 }
                 return result;
