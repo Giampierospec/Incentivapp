@@ -11,7 +11,8 @@ namespace Incentivapp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Premio
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,11 @@ namespace Incentivapp.Models
         }
     
         public int idPremio { get; set; }
+        [Required(ErrorMessage ="Debe introducir un valor")]
         public string valor { get; set; }
+        [Required(ErrorMessage = "Debe introducir un nombre")]
         public string nombre { get; set; }
+        [Required(ErrorMessage = "Debe introducir un tipo de premio")]
         public Nullable<int> idTipoPremio { get; set; }
         public Nullable<int> idUser { get; set; }
     

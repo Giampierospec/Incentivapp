@@ -1,6 +1,8 @@
 ﻿@{
     string method = ViewBag.Method;
     List<SelectListItem> idRol = ViewBag.idRol;
+    var checkT = Model.fisica.HasValue && Model.fisica.Value;
+    var checkF = !Model.fisica.HasValue || !Model.fisica.Value;
 }
 @model Incentivapp.Models.Usuario
 <div class="row text-center">
@@ -15,7 +17,7 @@
                 @Html.HiddenFor(x => x.idUsuario);
             }
             <div class="form-group row">
-                @Html.LabelFor(x => x.email, "Email", new { @class = "col-sm-4 col-form-label"})
+                @Html.LabelFor(x => x.email, "Email", new { @class = "col-sm-4 col-form-label" })
                 <div class="col-sm-8">
                     @Html.TextBoxFor(x => x.email, new { @class = "form-control", type = "email" })
                     @Html.ValidationMessageFor(x => x.email)
@@ -45,15 +47,16 @@
             <div class="form-group row">
                 @Html.LabelFor(x => x.idRol, "Rol", new { @class = "col-sm-4 col-form-label" })
                 <div class="col-sm-8">
-                    @Html.DropDownListFor(x => x.idRol, idRol,new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.idRol, idRol, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.idRol)
                 </div>
             </div>
             <div class="form-check row">
                 @Html.LabelFor(x => x.fisica, "Persona fisica", new { @class = "col-sm-4 form-check-label" })
                 <div class="col-sm-8">
-                    <input type="radio" name="Usuario.fisica" value="true" class="form-check-input"/> Si <br />
-                    <input type="radio" name="Usuario.fisica" value="false" class="form-check-input" /> No <br/>
+                    <input type="radio" name="fisica" id="fisica" value="true" checked="@checkT"class="form-check-input" /> Si <br />
+                    <input type="radio" name="fisica" id="fisica" value="false" checked="@checkF"class="form-check-input" /> No <br />
+                    @Html.ValidationMessageFor(x => x.fisica)
                 </div>
             </div>
             <div class="col-sm-8 offset-sm-2">

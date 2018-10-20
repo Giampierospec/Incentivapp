@@ -26,6 +26,18 @@ namespace Incentivapp.Repository
             _db.Entry(entity).State = System.Data.Entity.EntityState.Added;
         }
         /// <summary>
+        /// Verifica si existe basado en una condicion
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public bool Exists(Func<T, bool> where)
+        {
+            return _db
+                    .Set<T>()
+                    .Any(where);
+        }
+
+        /// <summary>
         /// Consigue toda la lista
         /// </summary>
         /// <returns></returns>

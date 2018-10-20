@@ -11,7 +11,8 @@ namespace Incentivapp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Rango
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +22,9 @@ namespace Incentivapp.Models
         }
     
         public int idRango { get; set; }
+        [Required(ErrorMessage = "Debe Proporcionar un valor de inicio")]
         public string Inicio { get; set; }
+        [Required(ErrorMessage = "Debe Proporcionar un valor de Fin")]
         public string Fin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
