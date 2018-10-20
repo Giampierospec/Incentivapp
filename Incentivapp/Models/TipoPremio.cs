@@ -22,7 +22,7 @@ namespace Incentivapp.Models
         }
     
         public int idTipoPremio { get; set; }
-        [Required(ErrorMessage = "El campo tipo es requerido")]
+        [Required(ErrorMessage ="El tipo es requerido")]
         public string tipo { get; set; }
         public Nullable<int> idUser { get; set; }
     

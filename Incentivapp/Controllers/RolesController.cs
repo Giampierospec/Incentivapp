@@ -1,5 +1,6 @@
 ﻿using Incentivapp.Models;
 using Incentivapp.Repository;
+using Incentivapp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Incentivapp.Controllers
     public class RolesController : Controller
     {
         private UnitOfWork _repo;
-
+        private ActionResult result = default(ActionResult);
         public RolesController()
         {
             _repo = new UnitOfWork(new Propietaria2Context());
@@ -19,97 +20,174 @@ namespace Incentivapp.Controllers
         // GET: Roles
         public ActionResult Index()
         {
+
             try
             {
-                var model = _repo.RolRepository.GetAll();
-                return View(model);
+                result = default(ActionResult);
+                var usr = (Usuario)Session["User"];
+                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin",UserUtil.GetUsuario(usr).idUsuario))
+                {
+                    var model = _repo.RolRepository.GetAll();
+                    result = View(model);
+                }
+                else
+                {
+                    TempData["permit"] = "Administrar los Roles";
+                    result = RedirectToAction("Permit", "ErrorManagement");
+
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo mostrar la pagina de roles";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         public ActionResult Create()
         {
+            result = default(ActionResult);
+            try
+            {
+                var usr = (Usuario)Session["User"];
+                ViewBag.Msg = "Crear Nuevo Rol";
+                ViewBag.Title = "Crear Rol";
+                ViewBag.Btn = "Crear";
+                ViewBag.Method = "Create";
+                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                 result = View("CreateEdit");
+                else
+                {
+                    TempData["permit"] = "Administrar los Roles";
+                    result = RedirectToAction("Permit", "ErrorManagement");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo mostrar la pagina de creacion de roles";
+                result = RedirectToAction("Error", "ErrorManagement");
+            }
+            return result;
+        }
+        [HttpPost]
+        public ActionResult Create(Role rol)
+        {
+            result = default(ActionResult);
             try
             {
                 ViewBag.Msg = "Crear Nuevo Rol";
                 ViewBag.Title = "Crear Rol";
                 ViewBag.Btn = "Crear";
                 ViewBag.Method = "Create";
-                return View("CreateEdit");
+
+                if (!_repo.RolRepository.Exists(x => x.nombre.Trim().ToLower() == rol.nombre.ToLower().Trim()))
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _repo.RolRepository.Add(rol);
+                        _repo.Save();
+                        result = RedirectToAction("Index");
+                    }
+                    else
+                        result = View("CreateEdit");
+                }
+              else
+                {
+                    ModelState.AddModelError("error", "El rol ya existe");
+                    result = View("CreateEdit");
+                }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo crear el rol";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
-        }
-        [HttpPost]
-        public ActionResult Create(Role rol)
-        {
-            try
-            {
-                _repo.RolRepository.Add(rol);
-                _repo.Save();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw;
-            }
+            return result;
         }
         public ActionResult Edit(int? id)
         {
+            result = default(ActionResult);
             try
             {
-                if (id == null)
-                    return RedirectToAction("Index");
-                var model = _repo.RolRepository.GetSingle(x => x.idRol == id);
-                ViewBag.Msg = $"Editar Rol {model.nombre}";
-                ViewBag.Title = "Editar Rol";
-                ViewBag.Btn = "Editar";
-                ViewBag.Method = "Edit";
-                return View("CreateEdit",model);
+                var usr = (Usuario)Session["User"];
+                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                {
+                    if (id == null)
+                        return RedirectToAction("Index");
+                    var model = _repo.RolRepository.GetSingle(x => x.idRol == id);
+                    ViewBag.Msg = $"Editar Rol {model.nombre}";
+                    ViewBag.Title = "Editar Rol";
+                    ViewBag.Btn = "Editar";
+                    ViewBag.Method = "Edit";
+                    result = View("CreateEdit", model);
+                }
+                else
+                {
+                    TempData["permit"] = "Administrar los Roles";
+                    result = RedirectToAction("Permit", "ErrorManagement");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo mostrar la vista de editar rol";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         [HttpPost]
         public ActionResult Edit(Role rol)
         {
             try
             {
+                result = default(ActionResult);
+                
+                ViewBag.Msg = $"Editar Rol {rol.nombre}";
+                ViewBag.Title = "Editar Rol";
+                ViewBag.Btn = "Editar";
+                ViewBag.Method = "Edit";
 
-                _repo.RolRepository.Update(rol);
-                _repo.Save();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _repo.RolRepository.Update(rol);
+                    _repo.Save();
+                    result = RedirectToAction("Index");
+                }
+                else
+                {
+                    result = View("CreateEdit", rol);
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo editar el rol";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
 
         public ActionResult Delete(int? id)
         {
             try
             {
+                result = default(ActionResult);
                 _repo.RolRepository.Remove(_repo.RolRepository.GetSingle(x => x.idRol == id));
                 _repo.Save();
-                return RedirectToAction("Index");
+                result = RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo eliminar el rol";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
     }
 }

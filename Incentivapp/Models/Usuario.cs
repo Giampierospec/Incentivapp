@@ -11,8 +11,7 @@ namespace Incentivapp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,20 +20,15 @@ namespace Incentivapp.Models
             this.Premios = new HashSet<Premio>();
             this.TipoPremios = new HashSet<TipoPremio>();
             this.Medicions = new HashSet<Medicion>();
+            this.Medicions1 = new HashSet<Medicion>();
         }
     
         public int idUsuario { get; set; }
-        [Required(ErrorMessage ="El nombre es requerido")]
         public string nombre { get; set; }
-        [Required(ErrorMessage = "El apellido es requerido")]
         public string apellido { get; set; }
-        [Required(ErrorMessage = "El email es requerido")]
         public string email { get; set; }
-        [Required(ErrorMessage = "La contraseña es requerida")]
         public string password { get; set; }
-        [Required(ErrorMessage ="Debe indicar si es fisica o no")]
         public Nullable<bool> fisica { get; set; }
-        [Required(ErrorMessage = "Debe proporcionar algun rol")]
         public Nullable<int> idRol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -44,5 +38,7 @@ namespace Incentivapp.Models
         public virtual ICollection<TipoPremio> TipoPremios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Medicion> Medicions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Medicion> Medicions1 { get; set; }
     }
 }

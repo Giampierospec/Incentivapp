@@ -144,6 +144,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\ErrorManagementController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MedicionController.cs" />
     <Compile Include="Controllers\PremiosController.cs" />
@@ -151,10 +152,10 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TipoPremiosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
-    <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\Medicion.cs">
       <DependentUpon>Propietaria.tt</DependentUpon>
     </Compile>
@@ -192,6 +193,7 @@
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
+    <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\UserUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +233,8 @@
     <Content Include="Views\Usuarios\CreateEdit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\ErrorManagement\Error.cshtml" />
+    <Content Include="Views\ErrorManagement\Permit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

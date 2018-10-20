@@ -22,11 +22,11 @@ namespace Incentivapp.Models
         }
     
         public int idPremio { get; set; }
-        [Required(ErrorMessage ="Debe introducir un valor")]
+        [Required(ErrorMessage = "El campo valor es requerido")]
         public string valor { get; set; }
-        [Required(ErrorMessage = "Debe introducir un nombre")]
+        [Required(ErrorMessage ="El campo nombre es requerido")]
         public string nombre { get; set; }
-        [Required(ErrorMessage = "Debe introducir un tipo de premio")]
+        [Required(ErrorMessage ="El campo tipo de premio es requerido")]
         public Nullable<int> idTipoPremio { get; set; }
         public Nullable<int> idUser { get; set; }
     

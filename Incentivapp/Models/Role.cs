@@ -22,7 +22,7 @@ namespace Incentivapp.Models
         }
     
         public int idRol { get; set; }
-        [Required(ErrorMessage ="Debes proporcionar el nombre del rol")]
+        [Required(ErrorMessage="El nombre es requerido")]
         public string nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

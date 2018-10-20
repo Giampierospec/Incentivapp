@@ -7,7 +7,7 @@
     <div class="col-sm-8 offset-sm-2">
         <h2>@ViewBag.Msg</h2>
         <hr />
-        @Html.ValidationSummary()
+        @Html.ValidationSummary(null,new { @class="text-danger"})
         @using (Html.BeginForm(method, "Premios", FormMethod.Post))
     {
         if (Model != null)
@@ -18,21 +18,21 @@
         @Html.LabelFor(x => x.nombre, "Premio", new { @class = "col-sm-4 col-form-label" })
         <div class="col-sm-8">
             @Html.TextBoxFor(x => x.nombre, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.nombre)
+            @Html.ValidationMessageFor(x => x.nombre, null,new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group row">
         @Html.LabelFor(x => x.valor, "Valor", new { @class = "col-sm-4 col-form-label" })
         <div class="col-sm-8">
             @Html.TextBoxFor(x => x.valor, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.valor)
+            @Html.ValidationMessageFor(x => x.valor,null, new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group row">
         @Html.LabelFor(x => x.idTipoPremio, "Tipo Premio", new { @class = "col-sm-4 col-form-label" })
         <div class="col-sm-8">
             @Html.DropDownListFor(x => x.idTipoPremio, idTipoPremio, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.idTipoPremio)
+            @Html.ValidationMessageFor(x => x.idTipoPremio, null, new { @class = "text-danger" })
         </div>
     </div>
     <div class="col-sm-8 offset-sm-2">

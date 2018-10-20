@@ -13,6 +13,7 @@
           <Property Name="rango" Type="int" />
           <Property Name="idPremio" Type="int" />
           <Property Name="idUser" Type="int" />
+          <Property Name="createdBy" Type="int" />
         </EntityType>
         <EntityType Name="Premio">
           <Key>
@@ -59,6 +60,18 @@
           <Property Name="fisica" Type="bit" />
           <Property Name="idRol" Type="int" />
         </EntityType>
+        <Association Name="FK_createdBy">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="createdBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ID_PREMIO">
           <End Role="Premio" Type="Self.Premio" Multiplicity="0..1" />
           <End Role="Medicion" Type="Self.Medicion" Multiplicity="*" />
@@ -150,6 +163,10 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoPremio" EntityType="Self.TipoPremio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_createdBy" Association="Self.FK_createdBy">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Medicion" EntitySet="Medicion" />
+          </AssociationSet>
           <AssociationSet Name="FK_ID_PREMIO" Association="Self.FK_ID_PREMIO">
             <End Role="Premio" EntitySet="Premio" />
             <End Role="Medicion" EntitySet="Medicion" />
@@ -229,6 +246,7 @@
           <NavigationProperty Name="Role" Relationship="Self.FK_ID_ROL" FromRole="Usuarios" ToRole="Roles" />
           <NavigationProperty Name="TipoPremios" Relationship="Self.FK_ID_USER" FromRole="Usuarios" ToRole="TipoPremio" />
           <NavigationProperty Name="Medicions" Relationship="Propietaria2Model.FK_ID_USER_3" FromRole="Usuario" ToRole="Medicion" />
+          <NavigationProperty Name="Medicions1" Relationship="Propietaria2Model.FK_createdBy" FromRole="Usuario" ToRole="Medicion" />
         </EntityType>
         <Association Name="FK_ID_TIPO_PREMIO">
           <End Role="TipoPremio" Type="Self.TipoPremio" Multiplicity="0..1" />
@@ -313,6 +331,10 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Medicion" EntitySet="Medicions" />
           </AssociationSet>
+          <AssociationSet Name="FK_createdBy" Association="Propietaria2Model.FK_createdBy">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Medicion" EntitySet="Medicions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Medicion">
           <Key>
@@ -325,6 +347,8 @@
           <NavigationProperty Name="Premio" Relationship="Propietaria2Model.FK_ID_PREMIO" FromRole="Medicion" ToRole="Premio" />
           <NavigationProperty Name="Rango1" Relationship="Propietaria2Model.FK_Id_Rango" FromRole="Medicion" ToRole="Rango" />
           <NavigationProperty Name="Usuario" Relationship="Propietaria2Model.FK_ID_USER_3" FromRole="Medicion" ToRole="Usuario" />
+          <Property Name="createdBy" Type="Int32" />
+          <NavigationProperty Name="Usuario1" Relationship="Propietaria2Model.FK_createdBy" FromRole="Medicion" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Rango">
           <Key>
@@ -368,6 +392,18 @@
             </Principal>
             <Dependent Role="Medicion">
               <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_createdBy">
+          <End Type="Propietaria2Model.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="Propietaria2Model.Medicion" Role="Medicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Medicion">
+              <PropertyRef Name="createdBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -421,6 +457,7 @@
           <EntitySetMapping Name="Medicions">
             <EntityTypeMapping TypeName="Propietaria2Model.Medicion">
               <MappingFragment StoreEntitySet="Medicion">
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="idUser" ColumnName="idUser" />
                 <ScalarProperty Name="idPremio" ColumnName="idPremio" />
                 <ScalarProperty Name="rango" ColumnName="rango" />

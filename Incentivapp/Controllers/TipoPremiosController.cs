@@ -11,7 +11,7 @@ namespace Incentivapp.Controllers
     public class TipoPremiosController : Controller
     {
         private UnitOfWork _repo;
-
+        private ActionResult result = default(ActionResult);
         public TipoPremiosController()
         {
             _repo = new UnitOfWork(new Propietaria2Context());
@@ -21,6 +21,7 @@ namespace Incentivapp.Controllers
         {
             try
             {
+                result = default(ActionResult);
                 var model = _repo.TipoPremioRepository.GetAll();
                 return View(model);
             }

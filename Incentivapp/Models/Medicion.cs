@@ -18,9 +18,11 @@ namespace Incentivapp.Models
         public Nullable<int> rango { get; set; }
         public Nullable<int> idPremio { get; set; }
         public Nullable<int> idUser { get; set; }
+        public Nullable<int> createdBy { get; set; }
     
         public virtual Premio Premio { get; set; }
         public virtual Rango Rango1 { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Usuario1 { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Incentivapp.Models;
 using Incentivapp.Repository;
+using Incentivapp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,59 @@ namespace Incentivapp.Controllers
         // GET: Premios
         public ActionResult Index()
         {
+            var result = default(ActionResult);
             try
             {
-                var model = _repo.PremioRepository.GetAll();
-                return View(model);
+               
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    var model = _repo.PremioRepository.GetAll();
+                    result = View(model);
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo visualizar la vista";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         public ActionResult Create()
         {
+            var result = default(ActionResult);
+            try
+            {
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    ViewBag.Msg = "Crear Nuevo Premio";
+                    ViewBag.Title = "Crear Premio";
+                    ViewBag.Btn = "Crear";
+                    ViewBag.Method = "Create";
+                    ViewBag.idTipoPremio = _repo.TipoPremioRepository.Transform(x => new SelectListItem()
+                    {
+                        Text = x.tipo,
+                        Value = x.idTipoPremio.ToString()
+                    });
+                    result = View("CreateEdit");
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo visualizar la vista de crear premios";
+                result = RedirectToAction("Error", "ErrorManagement");
+            }
+            return result;
+        }
+        [HttpPost]
+        public ActionResult Create(Premio pr)
+        {
+            var result = default(ActionResult);
             try
             {
                 ViewBag.Msg = "Crear Nuevo Premio";
@@ -43,77 +84,75 @@ namespace Incentivapp.Controllers
                     Text = x.tipo,
                     Value = x.idTipoPremio.ToString()
                 });
-                return View("CreateEdit");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw;
-            }
-        }
-        [HttpPost]
-        public ActionResult Create(Premio pr)
-        {
-            try
-            {
-                if (ModelState.IsValid)
+                if (!_repo.PremioRepository.Exists(x => x.nombre.Trim().ToLower() == pr.nombre.Trim().ToLower()))
                 {
-                    _repo.PremioRepository.Add(pr);
-                    _repo.Save();
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        pr.idUser = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
+                        _repo.PremioRepository.Add(pr);
+                        _repo.Save();
+                        result = RedirectToAction("Index");
+                    }
+                    else
+                        result = View("CreateEdit");
                 }
                 else
                 {
-                    ViewBag.Msg = "Crear Nuevo Premio";
-                    ViewBag.Title = "Crear Premio";
-                    ViewBag.Btn = "Crear";
-                    ViewBag.Method = "Create";
-                    ViewBag.idTipoPremio = _repo.TipoPremioRepository.Transform(x => new SelectListItem()
-                    {
-                        Text = x.tipo,
-                        Value = x.idTipoPremio.ToString()
-                    });
-                    return View("CreateEdit");
+                    ModelState.AddModelError("error", "El premio ya existe");
+                    result = View("CreateEdit");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo crear los premios";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         public ActionResult Edit(int? id)
         {
+            var result = default(ActionResult);
             try
             {
-                var model = _repo.PremioRepository.GetSingle(x => x.idPremio == id);
-                ViewBag.Msg = $"Editar Premio: {model.nombre}";
-                ViewBag.Title = "Editar Premio";
-                ViewBag.Btn = "Editar";
-                ViewBag.Method = "Edit";
-                ViewBag.idTipoPremio = _repo.TipoPremioRepository.Transform(x => new SelectListItem()
+
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
                 {
-                    Text = x.tipo,
-                    Value = x.idTipoPremio.ToString(),
-                });
-                return View("CreateEdit", model);
+                    var model = _repo.PremioRepository.GetSingle(x => x.idPremio == id);
+                    ViewBag.Msg = $"Editar Premio: {model.nombre}";
+                    ViewBag.Title = "Editar Premio";
+                    ViewBag.Btn = "Editar";
+                    ViewBag.Method = "Edit";
+                    ViewBag.idTipoPremio = _repo.TipoPremioRepository.Transform(x => new SelectListItem()
+                    {
+                        Text = x.tipo,
+                        Value = x.idTipoPremio.ToString(),
+                    });
+                    result = View("CreateEdit", model);
+                }
+                else
+                    result = RedirectToAction("Index","Auth");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo visualizar la vista de editar";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         [HttpPost]
         public ActionResult Edit(Premio pr)
         {
+            var result = default(ActionResult);
             try
             {
                 if (ModelState.IsValid)
                 {
+                    pr.idUser = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
                     _repo.PremioRepository.Update(pr);
                     _repo.Save();
-                    return RedirectToAction("Index");
+                    result = RedirectToAction("Index");
                 }
                 else
                 {
@@ -127,28 +166,36 @@ namespace Incentivapp.Controllers
                         Text = x.tipo,
                         Value = x.idTipoPremio.ToString()
                     });
-                    return View("CreateEdit", model);
+                    result = View("CreateEdit", model);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo Editar el premio";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         public ActionResult Delete(int? id)
         {
+            var result = default(ActionResult);
             try
             {
-                _repo.PremioRepository.Remove(_repo.PremioRepository.GetSingle(x => x.idPremio == id));
+
+                var usuario = _repo.PremioRepository.GetSingle(x => x.idPremio == id);
+                usuario.idUser = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
+                _repo.PremioRepository.Remove(usuario);
                 _repo.Save();
-                return RedirectToAction("Index");
+                result = RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo Eliminar al usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
     }
 }

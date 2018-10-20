@@ -1,6 +1,8 @@
 ﻿@using System.Web.Optimization
 <!DOCTYPE html>
-
+@{ 
+    var user = Incentivapp.Utils.UserUtil.IsLogged((Incentivapp.Models.Usuario)Session["User"])? Incentivapp.Utils.UserUtil.GetUsuario((Incentivapp.Models.Usuario)Session["User"]).nombre :"Ningunos";
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -29,7 +31,7 @@
     <div class="container-fluid sep-from-top">
         @RenderBody()
         <footer class="fixed-bottom sep-from-top bg-primary text-center">
-            <p class="white-color-inside"> Incentivapp - @DateTime.Now.Year</p>
+            <p class="white-color-inside"> Usuario: @user - Incentivapp - @DateTime.Now.Year</p>
         </footer>
     </div>'
     @Scripts.Render("~/bundles/js")

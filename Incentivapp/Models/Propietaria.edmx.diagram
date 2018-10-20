@@ -18,6 +18,7 @@
         <AssociationConnector Association="Propietaria2Model.FK_ID_PREMIO" />
         <AssociationConnector Association="Propietaria2Model.FK_Id_Rango" />
         <AssociationConnector Association="Propietaria2Model.FK_ID_USER_3" />
+        <AssociationConnector Association="Propietaria2Model.FK_createdBy" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
