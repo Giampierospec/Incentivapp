@@ -17,7 +17,7 @@
         @Html.LabelFor(x => x.nombre, "Rol", new { @class = "col-sm-4 col-form-label" })
         <div class="col-sm-8">
             @Html.TextBoxFor(x => x.nombre, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.nombre)
+            @Html.ValidationMessageFor(x => x.nombre,null,new { @class="text-danger"})
         </div>
     </div>
     <div class="col-sm-8 offset-sm-2">

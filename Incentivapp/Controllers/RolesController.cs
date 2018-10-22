@@ -25,17 +25,21 @@ namespace Incentivapp.Controllers
             {
                 result = default(ActionResult);
                 var usr = (Usuario)Session["User"];
-                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin",UserUtil.GetUsuario(usr).idUsuario))
+                if (UserUtil.IsLogged(usr))
                 {
-                    var model = _repo.RolRepository.GetAll();
-                    result = View(model);
+                    if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                    {
+                        var model = _repo.RolRepository.GetAll();
+                        result = View(model);
+                    }
+                    else
+                    {
+                        TempData["permit"] = "Administrar los Roles";
+                        result = RedirectToAction("Permit", "ErrorManagement");
+                    }
                 }
                 else
-                {
-                    TempData["permit"] = "Administrar los Roles";
-                    result = RedirectToAction("Permit", "ErrorManagement");
-
-                }
+                    result = RedirectToAction("Index", "Auth");
             }
             catch (Exception ex)
             {
@@ -55,14 +59,21 @@ namespace Incentivapp.Controllers
                 ViewBag.Title = "Crear Rol";
                 ViewBag.Btn = "Crear";
                 ViewBag.Method = "Create";
-                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
-                 result = View("CreateEdit");
-                else
+                if (UserUtil.IsLogged(usr))
                 {
-                    TempData["permit"] = "Administrar los Roles";
-                    result = RedirectToAction("Permit", "ErrorManagement");
+                    if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                        result = View("CreateEdit");
+                    else
+                    {
+                        TempData["permit"] = "Administrar los Roles";
+                        result = RedirectToAction("Permit", "ErrorManagement");
 
+                    }
                 }
+                else
+                    result = RedirectToAction("Index", "Auth");
+                 
+              
             }
             catch (Exception ex)
             {
@@ -115,22 +126,27 @@ namespace Incentivapp.Controllers
             try
             {
                 var usr = (Usuario)Session["User"];
-                if (UserUtil.IsLogged(usr) && UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                if (UserUtil.IsLogged(usr))
                 {
                     if (id == null)
-                        return RedirectToAction("Index");
-                    var model = _repo.RolRepository.GetSingle(x => x.idRol == id);
-                    ViewBag.Msg = $"Editar Rol {model.nombre}";
-                    ViewBag.Title = "Editar Rol";
-                    ViewBag.Btn = "Editar";
-                    ViewBag.Method = "Edit";
-                    result = View("CreateEdit", model);
+                        result = RedirectToAction("Index");
+                    else if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario(usr).idUsuario))
+                    {
+                        var model = _repo.RolRepository.GetSingle(x => x.idRol == id);
+                        ViewBag.Msg = $"Editar Rol {model.nombre}";
+                        ViewBag.Title = "Editar Rol";
+                        ViewBag.Btn = "Editar";
+                        ViewBag.Method = "Edit";
+                        result = View("CreateEdit", model);
+                    }
+                    else
+                    {
+                        TempData["permit"] = "Administrar los Roles";
+                        result = RedirectToAction("Permit", "ErrorManagement");
+                    }
                 }
                 else
-                {
-                    TempData["permit"] = "Administrar los Roles";
-                    result = RedirectToAction("Permit", "ErrorManagement");
-                }
+                    result = RedirectToAction("Index", "Auth");
             }
             catch (Exception ex)
             {

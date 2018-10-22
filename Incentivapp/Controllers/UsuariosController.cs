@@ -1,5 +1,6 @@
 ﻿using Incentivapp.Models;
 using Incentivapp.Repository;
+using Incentivapp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Incentivapp.Controllers
 {
     public class UsuariosController : Controller
     {
+        private ActionResult result = default(ActionResult);
         private UnitOfWork _repo;
 
         public UsuariosController()
@@ -19,16 +21,33 @@ namespace Incentivapp.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
+            result = default(ActionResult);
             try
             {
-                var model = _repo.UsuarioRepository.GetAll();
-                return View(model);
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario((Usuario)Session["user"]).idUsuario))
+                    {
+                        var model = _repo.UsuarioRepository.GetAll();
+                        result = View(model);
+                    }
+                    else
+                    {
+                        TempData["permit"] = "No tiene permisos para ver usuarios";
+                        result = RedirectToAction("Permit", "ErrorManagement");
+                    }
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo visualizar la vista de usuarios";
+                result = RedirectToAction("Error", "ErrorManagement");
+
             }
+            return result;
         }
 
         public ActionResult Create()
@@ -83,7 +102,7 @@ namespace Incentivapp.Controllers
                     Text = x.nombre,
                     Value = x.idRol.ToString()
                 });
-                return View("CreateEdit",model);
+                return View("CreateEdit", model);
             }
             catch (Exception ex)
             {

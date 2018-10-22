@@ -13,17 +13,32 @@ namespace Incentivapp.Controllers
         // GET: Auth
         public ActionResult Index()
         {
-            return View();
+            var result = default(ActionResult);
+            try
+            {
+                if (!UserUtil.IsLogged((Usuario)Session["User"]))
+                    result = View();
+                else
+                    result = RedirectToAction("Index", "TipoPremios");
+            }
+            catch(Exception ex)
+            {
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo ingresar a la vista de login";
+                result = RedirectToAction("Error", "ErrorManagement");
+            }
+            return result;
         }
         public ActionResult Login(Usuario user)
         {
+            var result = default(ActionResult);
             try
             {
-                var result = default(ActionResult);
+                
                 if (UserUtil.HasValidCredentials(user))
                 {
                     Session["User"] = UserUtil.GetUsuario(user);
-                    result = RedirectToAction("Index", "Premios");
+                    result = RedirectToAction("Index", "TipoPremios");
                 }
                 else
                 {
@@ -34,9 +49,36 @@ namespace Incentivapp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw ex;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo ingresar al usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
+        }
+        public ActionResult Logout()
+        {
+            var result = default(ActionResult);
+            try
+            {
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    Session.Clear();
+                    result = RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["err"] = "El usuario esta aun en sesión";
+                    result = RedirectToAction("Error", "ErrorManagement");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo desloggear al usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
+            }
+            return result;
         }
     }
 }

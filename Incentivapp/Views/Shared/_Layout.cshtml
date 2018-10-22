@@ -1,7 +1,8 @@
 ﻿@using System.Web.Optimization
 <!DOCTYPE html>
-@{ 
-    var user = Incentivapp.Utils.UserUtil.IsLogged((Incentivapp.Models.Usuario)Session["User"])? Incentivapp.Utils.UserUtil.GetUsuario((Incentivapp.Models.Usuario)Session["User"]).nombre :"Ningunos";
+@{
+    var isLogged = Incentivapp.Utils.UserUtil.IsLogged((Incentivapp.Models.Usuario)Session["User"]);
+    var user = Incentivapp.Utils.UserUtil.IsLogged((Incentivapp.Models.Usuario)Session["User"]) ? Incentivapp.Utils.UserUtil.GetUsuario((Incentivapp.Models.Usuario)Session["User"]).nombre : "Ningunos";
 }
 <html>
 <head>
@@ -25,6 +26,15 @@
                 <li class="nav-item">@Html.ActionLink("Medicion", "Index", "Medicion", null, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Roles", "Index", "Roles", null, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Usuarios", "Index", "Usuarios", null, new { @class = "nav-link" })</li>
+                @if (!isLogged)
+                {
+                    <li class="nav-item">@Html.ActionLink("Login", "Index", "Auth", null, new { @class = "nav-link" })</li>
+                }
+                else
+                {
+                    <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Auth", null, new { @class = "nav-link" })</li>
+                }
+
             </ul>
         </div>
     </nav>
