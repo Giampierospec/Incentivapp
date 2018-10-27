@@ -11,7 +11,8 @@ namespace Incentivapp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,11 +25,19 @@ namespace Incentivapp.Models
         }
     
         public int idUsuario { get; set; }
+        [Required(ErrorMessage="El nombre es requerido")]
         public string nombre { get; set; }
+        [Required(ErrorMessage = "El apellido es requerido")]
         public string apellido { get; set; }
+        [Required(ErrorMessage = "El email es requerido")]
+        [EmailAddress(ErrorMessage ="Introduzca un email correcto")]
         public string email { get; set; }
+        [Required(ErrorMessage ="la contraseña es requerida")]
+        [MinLength(6,ErrorMessage ="El minimo de caracteres es 6")]
         public string password { get; set; }
+        [Required(ErrorMessage ="Debe especificar si es fisica o no")]
         public Nullable<bool> fisica { get; set; }
+        [Required(ErrorMessage ="Escoja un rol")]
         public Nullable<int> idRol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

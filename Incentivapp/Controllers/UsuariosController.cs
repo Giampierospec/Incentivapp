@@ -52,6 +52,46 @@ namespace Incentivapp.Controllers
 
         public ActionResult Create()
         {
+            result = default(ActionResult);
+            try
+            {
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario((Usuario)Session["user"]).idUsuario))
+                    {
+                        ViewBag.Msg = "Crear Nuevo Usuario";
+                        ViewBag.Title = "Crear Usuario";
+                        ViewBag.Btn = "Crear";
+                        ViewBag.Method = "Create";
+                        ViewBag.idRol = _repo.RolRepository.Transform(x => new SelectListItem()
+                        {
+                            Text = x.nombre,
+                            Value = x.idRol.ToString()
+                        });
+                        result = View("CreateEdit");
+                    }
+                    else
+                    {
+                        TempData["permit"] = "No tiene permisos para crear usuarios";
+                        result = RedirectToAction("Permit", "ErrorManagement");
+                    }
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
+              
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo visualizar la vista de crear";
+                result = RedirectToAction("Error", "ErrorManagement");
+            }
+            return result;
+        }
+        [HttpPost]
+        public ActionResult Create(Usuario user)
+        {
+            result = default(ActionResult);
             try
             {
                 ViewBag.Msg = "Crear Nuevo Usuario";
@@ -63,35 +103,30 @@ namespace Incentivapp.Controllers
                     Text = x.nombre,
                     Value = x.idRol.ToString()
                 });
-                return View("CreateEdit");
+                if (ModelState.IsValid)
+                {
+                    _repo.UsuarioRepository.Add(user);
+                    _repo.Save();
+                    result = RedirectToAction("Index");
+                }
+                else
+                    result = View("CreateEdit");
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo crear el usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
-        }
-        [HttpPost]
-        public ActionResult Create(Usuario user)
-        {
-            try
-            {
-                _repo.UsuarioRepository.Add(user);
-                _repo.Save();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw;
-            }
+            return result;
         }
         public ActionResult Edit(int? id)
         {
+            result = default(ActionResult);
             try
             {
-                if (id == null)
-                    return RedirectToAction("Index");
+              
                 var model = _repo.UsuarioRepository.GetSingle(x => x.idUsuario == id);
                 ViewBag.Msg = $"Editar Usuario {model.nombre}";
                 ViewBag.Title = "Editar Usuario";
@@ -102,42 +137,69 @@ namespace Incentivapp.Controllers
                     Text = x.nombre,
                     Value = x.idRol.ToString()
                 });
-                return View("CreateEdit", model);
+                if (id == null)
+                    result = RedirectToAction("Index");
+                else if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario((Usuario)Session["user"]).idUsuario)) 
+                        result = View("CreateEdit",model);
+                    else
+                    {
+                        TempData["permit"] = "No tiene permisos para editar usuarios";
+                        result = RedirectToAction("Permit", "ErrorManagement");
+                    }
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo mostrar la vista de editar";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         [HttpPost]
         public ActionResult Edit(Usuario user)
         {
+            result = default(ActionResult);
             try
             {
-                _repo.UsuarioRepository.Update(user);
-                _repo.Save();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _repo.UsuarioRepository.Update(user);
+                    _repo.Save();
+                    result = RedirectToAction("Index");
+                }
+                else
+                    result = Edit(user.idUsuario);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo editar al usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
         public ActionResult Delete(int? id)
         {
+            result = default(ActionResult);
             try
             {
                 _repo.UsuarioRepository.Remove(_repo.UsuarioRepository.GetSingle(x => x.idUsuario == id));
                 _repo.Save();
-                return RedirectToAction("Index");
+                result =  RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Logger.LogException(ex);
+                TempData["err"] = "No se pudo editar al usuario";
+                result = RedirectToAction("Error", "ErrorManagement");
             }
+            return result;
         }
     }
 }

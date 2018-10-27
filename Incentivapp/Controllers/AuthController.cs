@@ -34,7 +34,7 @@ namespace Incentivapp.Controllers
             var result = default(ActionResult);
             try
             {
-                
+
                 if (UserUtil.HasValidCredentials(user))
                 {
                     Session["User"] = UserUtil.GetUsuario(user);
@@ -45,7 +45,6 @@ namespace Incentivapp.Controllers
                     ModelState.AddModelError("error", "Usuario o contraseña incorrectos");
                     result = View("Index");
                 }
-                return result;
             }
             catch (Exception ex)
             {
