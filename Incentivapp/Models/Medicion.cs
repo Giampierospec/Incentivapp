@@ -18,7 +18,6 @@ namespace Incentivapp.Models
         public int idMedicion { get; set; }
         [Required(ErrorMessage="El rango es requerido")]
         public Nullable<int> rango { get; set; }
-        [Required(ErrorMessage = "El premio es requerido")]
         public Nullable<int> idPremio { get; set; }
         public Nullable<int> idUser { get; set; }
         public Nullable<int> createdBy { get; set; }

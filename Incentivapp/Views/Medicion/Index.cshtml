@@ -19,6 +19,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Usuario</th>
                     <th>Premio</th>
                     <th>Valor</th>
                     <th>Rango Inicio</th>
@@ -30,6 +31,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>@(item.Usuario.nombre+" "+item.Usuario.apellido)</td>
                         <td>@item.Premio.nombre</td>
                         <td>@item.Premio.valor</td>
                         <td>@item.Rango1.Inicio</td>

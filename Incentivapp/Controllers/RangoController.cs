@@ -80,12 +80,17 @@ namespace Incentivapp.Controllers
                  (x.Fin.Trim().ToLower() == rg.Fin.Trim().ToLower()))){
                     if (ModelState.IsValid)
                     {
-                        _repo.RangoRepository.Add(rg);
+                        _repo.RangoRepository.Add(_repo.RangoRepository.UpperCaseValues(rg));
                         _repo.Save();
                         result = RedirectToAction("Index");
                     }
                     else
                         result = View("CreateEdit");
+                }
+                else if (CheckRange.IsLarger(rg))
+                {
+                    ModelState.AddModelError("error", "El rango de fin es mayor al de Inicio");
+                    result = View("CreateEdit");
                 }
                 else
                 {
@@ -140,7 +145,7 @@ namespace Incentivapp.Controllers
                 ViewBag.Method = "Edit";
                 if (ModelState.IsValid)
                 {
-                    _repo.RangoRepository.Update(rg);
+                    _repo.RangoRepository.Update(_repo.RangoRepository.UpperCaseValues(rg));
                     _repo.Save();
                     result = RedirectToAction("Index");
                 }

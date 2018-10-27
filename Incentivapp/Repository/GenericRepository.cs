@@ -100,5 +100,16 @@ namespace Incentivapp.Repository
         {
             _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
+
+        public T UpperCaseValues(T entity)
+        {
+            var props = entity.GetType().GetProperties();
+            foreach (var prop in props)
+            {
+                if(prop.PropertyType.Name == "String")
+                    prop.SetValue(entity, prop.GetValue(entity).ToString().ToUpper());
+            }
+            return entity;
+        }
     }
 }

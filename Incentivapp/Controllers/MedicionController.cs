@@ -23,8 +23,14 @@ namespace Incentivapp.Controllers
             result = default(ActionResult);
             try
             {
-                var model = _repo.MedicionRepository.GetAll();
-                result = View(model);
+                if (UserUtil.IsLogged((Usuario)Session["User"]))
+                {
+                    var model = _repo.MedicionRepository.GetAll();
+                    result = View(model);
+                }
+                else
+                    result = RedirectToAction("Index", "Auth");
+                
             }
             catch (Exception ex)
             {
@@ -39,10 +45,10 @@ namespace Incentivapp.Controllers
             var result = default(ActionResult);
             try
             {
-                ViewBag.Premios = _repo.PremioRepository.Transform(x => new SelectListItem()
+                ViewBag.Usuarios = _repo.UsuarioRepository.Transform(x => new SelectListItem()
                 {
-                    Text = x.nombre,
-                    Value = x.idPremio.ToString()
+                    Text = $"{x.nombre} {x.apellido}",
+                    Value = x.idUsuario.ToString()
                 });
                 ViewBag.Rangos = _repo.RangoRepository.Transform(x => new SelectListItem()
                 {
@@ -72,20 +78,6 @@ namespace Incentivapp.Controllers
             result = default(ActionResult);
             try
             {
-                ViewBag.Premios = _repo.PremioRepository.Transform(x => new SelectListItem()
-                {
-                    Text = x.nombre,
-                    Value = x.idPremio.ToString()
-                });
-                ViewBag.Rangos = _repo.RangoRepository.Transform(x => new SelectListItem()
-                {
-                    Text = $"{x.Inicio} - {x.Fin}",
-                    Value = x.idRango.ToString()
-                });
-                ViewBag.Msg = "Crear Nueva Medicion";
-                ViewBag.Title = "Crear Medicion";
-                ViewBag.Btn = "Crear";
-                ViewBag.Method = "Create";
                 if (ModelState.IsValid)
                 {
                     md.createdBy = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
@@ -94,7 +86,7 @@ namespace Incentivapp.Controllers
                     result = RedirectToAction("Index");
                 }
                 else
-                    result = View("CreateEdit");
+                    result = Create();
             }
             catch (Exception ex)
             {
@@ -109,12 +101,12 @@ namespace Incentivapp.Controllers
             result = default(ActionResult);
             try
             {
-                
-                ViewBag.Premios = _repo.PremioRepository.Transform(x => new SelectListItem()
+                ViewBag.Usuarios = _repo.UsuarioRepository.Transform(x => new SelectListItem()
                 {
-                    Text = x.nombre,
-                    Value = x.idPremio.ToString()
+                    Text = $"{x.nombre} {x.apellido}",
+                    Value = x.idUsuario.ToString()
                 });
+
                 ViewBag.Rangos = _repo.RangoRepository.Transform(x => new SelectListItem()
                 {
                     Text = $"{x.Inicio} - {x.Fin}",
@@ -146,21 +138,6 @@ namespace Incentivapp.Controllers
             result = default(ActionResult);
             try
             {
-                ViewBag.Premios = _repo.PremioRepository.Transform(x => new SelectListItem()
-                {
-                    Text = x.nombre,
-                    Value = x.idPremio.ToString()
-                });
-                ViewBag.Rangos = _repo.RangoRepository.Transform(x => new SelectListItem()
-                {
-                    Text = $"{x.Inicio} - {x.Fin}",
-                    Value = x.idRango.ToString()
-                });
-                var model = _repo.MedicionRepository.GetSingle(x => x.idMedicion == md.idMedicion);
-                ViewBag.Msg = $"Editar Medicion no {model.idMedicion}";
-                ViewBag.Title = "Editar Medicion";
-                ViewBag.Btn = "Editar";
-                ViewBag.Method = "Edit";
                 if (ModelState.IsValid)
                 {
                     md.createdBy = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
@@ -169,7 +146,7 @@ namespace Incentivapp.Controllers
                     result = RedirectToAction("Index");
                 }
                 else
-                    result = View("CreateEdit");
+                    result = Edit(md.idMedicion);
 
             }
             catch (Exception ex)

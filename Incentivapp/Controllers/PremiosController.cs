@@ -89,7 +89,7 @@ namespace Incentivapp.Controllers
                     if (ModelState.IsValid)
                     {
                         pr.idUser = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
-                        _repo.PremioRepository.Add(pr);
+                        _repo.PremioRepository.Add(_repo.PremioRepository.UpperCaseValues(pr));
                         _repo.Save();
                         result = RedirectToAction("Index");
                     }
@@ -150,7 +150,7 @@ namespace Incentivapp.Controllers
                 if (ModelState.IsValid)
                 {
                     pr.idUser = UserUtil.GetUsuario((Usuario)Session["User"]).idUsuario;
-                    _repo.PremioRepository.Update(pr);
+                    _repo.PremioRepository.Update(_repo.PremioRepository.UpperCaseValues(pr));
                     _repo.Save();
                     result = RedirectToAction("Index");
                 }

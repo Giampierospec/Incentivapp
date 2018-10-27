@@ -1,9 +1,12 @@
-﻿@{ 
+﻿@{
     string method = ViewBag.Method;
-    List<SelectListItem> prem = ViewBag.Premios;
+    List<SelectListItem> usuarios = ViewBag.Usuarios;
     List<SelectListItem> rango = ViewBag.Rangos;
 }
 @model Incentivapp.Models.Medicion
+@section scripts{
+    <script src="~/Scripts/Medicion/fetchMedicion.js"></script>
+}
 <div class="row text-center">
     <div class="col-sm-8 offset-sm-2">
         <h2>@ViewBag.Msg</h2>
@@ -16,21 +19,31 @@
             @Html.HiddenFor(x => x.idMedicion);
     }
     <div class="form-group row">
-        @Html.LabelFor(x => x.idPremio, "Premio", new { @class = "col-sm-4 col-form-label" })
-        <div class="col-sm-8">
-            @Html.DropDownListFor(x => x.idPremio, prem, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.idPremio)
-        </div>
-    </div>
-    <div class="form-group row">
         @Html.LabelFor(x => x.rango, "Rango", new { @class = "col-sm-4 col-form-label" })
         <div class="col-sm-8">
             @Html.DropDownListFor(x => x.rango, rango, new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.rango)
         </div>
     </div>
+    <div class="form-group row">
+        @Html.LabelFor(x => x.idPremio, "Premio", new { @class = "col-sm-4 col-form-label" })
+        <div class="col-sm-8">
+            @*@Html.DropDownListFor(x => x.idPremio, null, new { @class = "form-control", @readonly = "true" })*@
+            <input type="hidden" name="idPremio" id="idPremio" />
+            <span><b id="resIdPremio"></b></span>
+            @Html.ValidationMessageFor(x => x.idPremio, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(x => x.idUser, "Usuario", new { @class = "col-sm-4 col-form-label" })
+        <div class="col-sm-8">
+            @Html.DropDownListFor(x => x.idUser, usuarios, new { @class = "form-control"})
+            @Html.ValidationMessageFor(x => x.idUser, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="col-sm-8 offset-sm-2">
-        <button type="submit" class="btn btn-outline-primary">@ViewBag.Btn</button>
+        <button type="submit" class="btn btn-outline-primary" id="btnMed">@ViewBag.Btn</button>
     </div>
 }
     </div>

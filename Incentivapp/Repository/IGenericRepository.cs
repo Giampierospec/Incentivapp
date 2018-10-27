@@ -18,6 +18,7 @@ namespace Incentivapp.Repository
         void Add(T entity);
         void Remove(T entity);
         void Update(T entity);
+        T UpperCaseValues(T entity);
 
     }
 }
