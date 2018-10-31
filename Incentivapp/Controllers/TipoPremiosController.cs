@@ -142,14 +142,7 @@ namespace Incentivapp.Controllers
                     result = RedirectToAction("Index");
                 }
                 else
-                {
-                    var model = _repo.TipoPremioRepository.GetSingle(x => x.idTipoPremio == tp.idTipoPremio);
-                    ViewBag.Msg = $"Editar el tipo de premio {model.tipo}";
-                    ViewBag.Title = "Editar Tipo Premio";
-                    ViewBag.Btn = "Editar";
-                    ViewBag.Method = "Edit";
-                    result = View("CreateEdit", model);
-                }
+                    result = Edit(tp.idTipoPremio);
             }
             catch (Exception ex)
             {

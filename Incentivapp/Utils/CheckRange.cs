@@ -45,10 +45,8 @@ namespace Incentivapp.Utils
         /// <returns></returns>
         private static int indexToBring(List<Premio> pr)
         {
-            var randIndex = new Random().Next(pr.Min(y => y.idPremio), pr.Max(y => y.idPremio));
-            while(!pr.Select(x => x.idPremio).Contains(randIndex))
-                randIndex = new Random().Next(pr.Min(y => y.idPremio), pr.Max(y => y.idPremio));
-            return randIndex;
+            var rand = new Random();
+            return pr.OrderBy(x => rand.Next()).Take(1).FirstOrDefault().idPremio;
         }
         public static bool IsLarger(Rango rango)
         {

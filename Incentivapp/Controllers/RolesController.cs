@@ -163,10 +163,7 @@ namespace Incentivapp.Controllers
             {
                 result = default(ActionResult);
                 
-                ViewBag.Msg = $"Editar Rol {rol.nombre}";
-                ViewBag.Title = "Editar Rol";
-                ViewBag.Btn = "Editar";
-                ViewBag.Method = "Edit";
+               
 
                 if (ModelState.IsValid)
                 {
@@ -176,7 +173,7 @@ namespace Incentivapp.Controllers
                 }
                 else
                 {
-                    result = View("CreateEdit", rol);
+                    result = Edit(rol.idRol);
                 }
             }
             catch (Exception ex)

@@ -1,8 +1,8 @@
 ﻿@{
     string method = ViewBag.Method;
     List<SelectListItem> idRol = ViewBag.idRol;
-    var checkT = Model.fisica??Model.fisica;
-    var checkF = !Model.fisica??!Model.fisica;
+    var checkT = Model?.fisica == null?null:Model.fisica;
+    var checkF = !Model?.fisica== null?null:!Model.fisica;
 }
 @model Incentivapp.Models.Usuario
 <div class="row text-center">

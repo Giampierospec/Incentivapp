@@ -138,11 +138,7 @@ namespace Incentivapp.Controllers
             result = default(ActionResult);
             try
             {
-                var model = _repo.RangoRepository.GetSingle(x => x.idRango == rg.idRango);
-                ViewBag.Msg = $"Editar rango {model.idRango}";
-                ViewBag.Title = "Editar Rango";
-                ViewBag.Btn = "Editar";
-                ViewBag.Method = "Edit";
+
                 if (ModelState.IsValid)
                 {
                     _repo.RangoRepository.Update(_repo.RangoRepository.UpperCaseValues(rg));
@@ -150,7 +146,7 @@ namespace Incentivapp.Controllers
                     result = RedirectToAction("Index");
                 }
                 else
-                    result = View("CreateEdit");
+                    result = Edit(rg.idRango);
 
             }
             catch (Exception ex)
