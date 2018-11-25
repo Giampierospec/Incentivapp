@@ -19,7 +19,7 @@ namespace Incentivapp.Controllers
             _repo = new UnitOfWork(new Propietaria2Context());
         }
         // GET: Usuarios
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             result = default(ActionResult);
             try
@@ -28,7 +28,11 @@ namespace Incentivapp.Controllers
                 {
                     if (UserUtil.IsInRole("Admin", UserUtil.GetUsuario((Usuario)Session["user"]).idUsuario))
                     {
-                        var model = _repo.UsuarioRepository.GetAll();
+                        var model = _repo.UsuarioRepository.GetList(x => (string.IsNullOrEmpty(search))?true:
+                        x.nombre.ToLower().Trim().Contains(search.Trim().ToLower())||
+                        x.apellido.ToLower().Trim().Contains(search.Trim().ToLower())||
+                        x.email.ToLower().Trim().Contains(search.Trim().ToLower())||
+                        x.Role.nombre.ToLower().Trim().Contains(search.Trim().ToLower()));
                         result = View(model);
                     }
                     else

@@ -18,7 +18,7 @@ namespace Incentivapp.Controllers
             _repo = new UnitOfWork(new Propietaria2Context());
         }
         // GET: Premios
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             var result = default(ActionResult);
             try
@@ -26,7 +26,12 @@ namespace Incentivapp.Controllers
                
                 if (UserUtil.IsLogged((Usuario)Session["User"]))
                 {
-                    var model = _repo.PremioRepository.GetAll();
+                    var model = _repo.PremioRepository.GetList(x => 
+                    (string.IsNullOrEmpty(search))?true:x.nombre.ToLower().Trim().Contains(search.ToLower().Trim()) ||
+                    x.TipoPremio.tipo.ToLower().Trim().Contains(search.ToLower().Trim()) ||
+                   x.Usuario.nombre.ToLower().Trim().Contains(search.ToLower().Trim()) ||
+                    x.valor.Contains(search)
+                    );
                     result = View(model);
                 }
                 else

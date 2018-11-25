@@ -18,14 +18,14 @@ namespace Incentivapp.Controllers
             _repo = new UnitOfWork(new Propietaria2Context());
         }
         // GET: TipoPremios
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             try
             {
                 result = default(ActionResult);
                 if (UserUtil.IsLogged((Usuario)Session["User"]))
                 {
-                    var model = _repo.TipoPremioRepository.GetAll();
+                    var model = _repo.TipoPremioRepository.GetList(x => (string.IsNullOrEmpty(search))?true:x.tipo.Trim().ToLower().Contains(search.Trim().ToLower()));
                     result = View(model);
                 }
                 else

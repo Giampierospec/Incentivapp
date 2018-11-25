@@ -13,6 +13,8 @@
     <div class="col-sm-8 offset-sm-2 text-center">
         <h2>Medicion</h2>
         <hr />
+        <input type="text" name="search" id="search" placeholder="Buscar..." class="form-control-sm" />
+        @Html.ActionLink("Exportar", "Medicion", "Excel", null, new { @class = "btn btn-success" })
         <p>
             @Html.ActionLink("Crear", "Create", "Medicion", null, new { @class = "btn btn-primary" })
         </p>
@@ -29,20 +31,20 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@(item.Usuario.nombre+" "+item.Usuario.apellido)</td>
-                        <td>@item.Premio.nombre</td>
-                        <td>@item.Premio.valor</td>
-                        <td>@item.Rango1.Inicio</td>
-                        <td>@item.Rango1.Fin</td>
-                        <td>
-                            @Html.ActionLink("Editar", "Edit", "Medicion", new { id = item.idMedicion }, new { @class = "btn btn-secondary" })
-                            <button class="btn btn-danger delMed" data-id="@item.idMedicion">Eliminar</button>
-                        </td>
+            {
+                <tr>
+                    <td>@(item.Usuario.nombre + " " + item.Usuario.apellido)</td>
+                    <td>@item.Premio.nombre</td>
+                    <td>@item.Premio.valor</td>
+                    <td>@item.Rango1.Inicio</td>
+                    <td>@item.Rango1.Fin</td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", "Medicion", new { id = item.idMedicion }, new { @class = "btn btn-secondary" })
+                        <button class="btn btn-danger delMed" data-id="@item.idMedicion">Eliminar</button>
+                    </td>
 
-                    </tr>
-                }
+                </tr>
+        }
             </tbody>
         </table>
     </div>

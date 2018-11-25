@@ -11,4 +11,13 @@
         $("#delModal").modal("hide");
         location.href = `/TipoPremios/Delete/${idTipoPremio}`;
     });
+    let search = document.getElementById("search");
+    let searchFunc = function (e) {
+        console.log(e);
+        if (e.which === 13) {
+            location.href = `?search=${search.value}`;
+        }
+
+    };
+    window.addEventListener("keypress", searchFunc);
 })();

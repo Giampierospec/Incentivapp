@@ -18,14 +18,19 @@ namespace Incentivapp.Controllers
             _repo = new UnitOfWork(new Propietaria2Context());
         }
         // GET: Medicion
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             result = default(ActionResult);
             try
             {
                 if (UserUtil.IsLogged((Usuario)Session["User"]))
                 {
-                    var model = _repo.MedicionRepository.GetAll();
+                    var model = _repo.MedicionRepository.GetList(x =>(string.IsNullOrEmpty(search))?true:
+                    x.Usuario.nombre.Trim().ToLower().Contains(search.Trim().ToLower()) ||
+                    x.Usuario.apellido.Trim().ToLower().Contains(search.Trim().ToLower())||
+                    x.Premio.nombre.ToLower().Trim().Contains(search.Trim().ToLower())||
+                    x.Premio.valor.ToLower().Trim().Contains(search.Trim().ToLower())
+                    );
                     result = View(model);
                 }
                 else

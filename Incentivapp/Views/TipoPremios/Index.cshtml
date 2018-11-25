@@ -10,6 +10,8 @@
     <div class="col-sm-8 offset-sm-2 text-center">
         <h2>Tipos de Premio</h2>
         <hr />
+        <input type="text" name="search" id="search" placeholder="Buscar..." class="form-control-sm" />
+        @Html.ActionLink("Exportar", "TipoPremios", "Excel", null, new { @class = "btn btn-success" })
         @Html.ActionLink("Crear Nuevo", "Create", "TipoPremios", new { @class = "btn btn-primary" })
         <br />
         <br />
@@ -24,13 +26,13 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.tipo</td>
-                            <td>@Html.ActionLink("Editar", "Edit", "TipoPremios", new { id = item.idTipoPremio }, new { @class = "btn btn-secondary" })</td>
-                            <td><button class="btn btn-danger delTp" data-id="@item.idTipoPremio">Eliminar</button></td>
-                        </tr>
-                    }
+                {
+                    <tr>
+                        <td>@item.tipo</td>
+                        <td>@Html.ActionLink("Editar", "Edit", "TipoPremios", new { id = item.idTipoPremio }, new { @class = "btn btn-secondary" })</td>
+                        <td><button class="btn btn-danger delTp" data-id="@item.idTipoPremio">Eliminar</button></td>
+                    </tr>
+            }
                 </tbody>
             </table>
         </div>
